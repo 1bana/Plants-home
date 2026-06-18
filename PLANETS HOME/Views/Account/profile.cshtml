@@ -1,0 +1,58 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model PLANETS_HOME.Models.User
+@{
+    ViewData["Title"] = "My Account";
+}
+
+<div class="container section">
+    <h1 class="section-title">My Account</h1>
+
+    <div class="profile-grid">
+
+        <div class="card">
+            <div class="profile-header">
+                <div class="avatar">@Model.username[0].ToString().ToUpper()</div>
+                <div>
+                    <div class="profile-name">@Model.username</div>
+                    <div class="profile-since">Member since @Model.created.ToString("MMM yyyy")</div>
+                </div>
+            </div>
+            <div class="info-row"><span class="info-label">Username</span><span class="info-val">@Model.username</span></div>
+            <div class="info-row"><span class="info-label">Email</span><span class="info-val">@Model.email</span></div>
+        </div>
+
+        <div class="card">
+            <h2 class="card-title">Change password</h2>
+            <form asp-action="ChangePassword" method="post">
+                @Html.AntiForgeryToken()
+                @{
+                    var cp = ViewBag.ChangePasswordModel as PLANETS_HOME.Models.ViewModel.ChangePasswordViewModel
+                             ?? new PLANETS_HOME.Models.ViewModel.ChangePasswordViewModel();
+                }
+                <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+                <div class="field">
+                    <label>Current password</label>
+                    <input asp-for="@cp.CurrentPassword" placeholder="••••••••" />
+                    <span asp-validation-for="@cp.CurrentPassword" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label>New password</label>
+                    <input asp-for="@cp.NewPassword" placeholder="At least 6 characters" />
+                    <span asp-validation-for="@cp.NewPassword" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label>Confirm new password</label>
+                    <input asp-for="@cp.ConfirmNewPassword" placeholder="Repeat new password" />
+                    <span asp-validation-for="@cp.ConfirmNewPassword" class="field-error"></span>
+                </div>
+                <button type="submit" class="btn-green btn-full">Update password</button>
+            </form>
+        </div>
+
+    </div>
+</div>

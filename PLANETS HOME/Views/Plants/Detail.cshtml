@@ -1,0 +1,79 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model PLANETS_HOME.Models.Plant
+@{
+    ViewData["Title"] = Model.name;
+}
+
+<div class="container section">
+
+    <a asp-controller="Plants" asp-action="Index" class="back-link">← Back to catalog</a>
+    
+    @if (TempData["BuySuccess"] != null)
+    {
+        <div style="background-color: #d4edda; color: #155724; padding: 15px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #c3e6cb;">
+            ✅ @TempData["BuySuccess"]
+        </div>
+    }
+
+    <div class="detail-header">
+        <div class="detail-icon">🌱</div>
+        <div>
+            <h1 class="detail-title">@Model.name</h1>
+            @if (!string.IsNullOrEmpty(Model.category))
+            {
+                <span class="badge badge-category">@Model.category</span>
+            }
+        </div>
+    </div>
+
+    <div class="care-grid">
+        <div class="care-card">
+            <div class="care-label">☀️ Light need</div>
+            <div class="care-val">@(Model.light ?? "—")</div>
+        </div>
+        <div class="care-card">
+            <div class="care-label">💧 Watering</div>
+            <div class="care-val">@(Model.water ?? "—")</div>
+        </div>
+        <div class="care-card">
+            <div class="care-label">💦 Humidity</div>
+            <div class="care-val">@(Model.humidity ?? "—")</div>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.description))
+    {
+        <div class="detail-section">
+            <h2 class="detail-section-title">About this plant</h2>
+            <p class="detail-text">@Model.description</p>
+        </div>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.caretips))
+    {
+        <div class="detail-section">
+            <h2 class="detail-section-title">Care tips</h2>
+            <p class="detail-text">@Model.caretips</p>
+        </div>
+    }
+
+    <@if (Context.Session.GetInt32("UserId") != null)
+        {
+            <form method="post" action="/Plants/Buy/@Model.id">
+                @Html.AntiForgeryToken()
+                <button type="submit" style="background-color: #28a745; color: white; padding: 10px 25px; border: none; border-radius: 6px; font-size: 16px; cursor: pointer;">
+                    🛒 Buy Now
+                </button>
+            </form>
+        }
+else
+        {
+            <a href="/Account/SignIn" style="background-color: #6c757d; color: white; padding: 10px 25px; border-radius: 6px; font-size: 16px; text-decoration: none; display: inline-block;">
+                🔒 Sign In to Buy
+            </a>
+        }
+</div>

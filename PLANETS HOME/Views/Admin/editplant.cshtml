@@ -1,0 +1,81 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model PLANETS_HOME.Models.ViewModel.PlantFormViewModel
+@{
+    ViewData["Title"] = "Edit Plant";
+}
+
+<div class="container section">
+    <h1 class="section-title">Edit plant</h1>
+
+    <div class="card" style="max-width:700px; margin:0 auto;">
+        <form asp-action="EditPlant" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+
+            <div class="form-grid-2">
+                <div class="field">
+                    <label asp-for="Name">Plant name *</label>
+                    <input asp-for="Name" />
+                    <span asp-validation-for="Name" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Category">Category</label>
+                    <select asp-for="Category">
+                        <option value="">— Select —</option>
+                        <option>Tropical</option>
+                        <option>Succulent</option>
+                        <option>Flowering</option>
+                        <option>Herb</option>
+                        <option>Fern</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label asp-for="LightNeed">Light need</label>
+                    <select asp-for="LightNeed">
+                        <option value="">— Select —</option>
+                        <option>Low light</option>
+                        <option>Any light</option>
+                        <option>Low to medium</option>
+                        <option>Bright indirect</option>
+                        <option>Full sun</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label asp-for="WaterNeed">Watering</label>
+                    <select asp-for="WaterNeed">
+                        <option value="">— Select —</option>
+                        <option>Daily</option>
+                        <option>Once a week</option>
+                        <option>Every 1-2 weeks</option>
+                        <option>Every 2-3 weeks</option>
+                        <option>Every 2-4 weeks</option>
+                        <option>Every 3 weeks</option>
+                        <option>Monthly</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label asp-for="Humidity">Humidity</label>
+                    <input asp-for="Humidity" />
+                </div>
+                <div class="field">
+                    <label asp-for="CareTips">Care tips</label>
+                    <input asp-for="CareTips" />
+                </div>
+            </div>
+            <div class="field">
+                <label asp-for="Description">Description</label>
+                <textarea asp-for="Description" rows="4"></textarea>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn-green">Update plant</button>
+                <a asp-action="Dashboard" class="btn-outline">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>

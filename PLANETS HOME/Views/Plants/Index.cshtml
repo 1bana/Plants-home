@@ -1,0 +1,62 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model PLANETS_HOME.Models.ViewModel.CatalogViewModel
+@{
+    ViewData["Title"] = "Plant Catalog";
+}
+
+<div class="container section">
+    <h1 class="section-title">Plant Catalog</h1>
+
+    <form method="get" asp-action="Index" class="search-bar">
+        <input type="text" name="q" value="@Model.SearchQuery"
+               placeholder="Search by name or category…" class="search-input" />
+        <button type="submit" class="btn-green">Search</button>
+        @if (!string.IsNullOrEmpty(Model.SearchQuery) || !string.IsNullOrEmpty(Model.FilterCategory))
+        {
+            <a asp-action="Index" class="btn-outline">Clear</a>
+        }
+    </form>
+
+    <div class="filter-row">
+        <a asp-action="Index" asp-route-q="@Model.SearchQuery"
+           class="filter-pill @(string.IsNullOrEmpty(Model.FilterCategory) ? "active" : "")">All</a>
+        @foreach (var cat in Model.Categories)
+        {
+            <a asp-action="Index" asp-route-q="@Model.SearchQuery" asp-route-category="@cat"
+               class="filter-pill @(Model.FilterCategory == cat ? "active" : "")">@cat</a>
+        }
+    </div>
+
+    <p class="results-count">@Model.Plants.Count plant(s) found</p>
+
+    @if (Model.Plants.Any())
+    {
+        <div class="plant-grid">
+            @foreach (var plant in Model.Plants)
+            {
+                <a asp-action="Detail" asp-route-id="@plant.id" class="plant-card">
+                    <div class="plant-icon">🌱</div>
+                    <div class="plant-name">@plant.name</div>
+                    <div class="plant-tags">
+                        @if (!string.IsNullOrEmpty(plant.light))
+                        {
+                            <span class="plant-tag">☀️ @plant.light</span>
+                        }
+                        @if (!string.IsNullOrEmpty(plant.category))
+                        {}
+                            <span class="plant-tag">@plant.category</span>
+                        }
+                    </div>
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state"><p>🌱 No plants found. Try a different search.</p></div>
+    }
+</div>

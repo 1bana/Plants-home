@@ -1,0 +1,69 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model List<PLANETS_HOME.Models.Plant>
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<div class="container section">
+    <h1 class="section-title">Admin Dashboard</h1>
+
+    <div class="admin-stats">
+        <div class="stat-card">
+            <div class="stat-num">@ViewBag.PlantCount</div>
+            <div class="stat-label">Total plants</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">@ViewBag.UserCount</div>
+            <div class="stat-label">Registered users</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-num">@ViewBag.Categories</div>
+            <div class="stat-label">Categories</div>
+        </div>
+    </div>
+
+    <div class="section-head">
+        <h2 class="section-title" style="margin:0">Plants</h2>
+        <a asp-action="AddPlant" class="btn-green">+ Add plant</a>
+    </div>
+
+    <div class="table-wrap">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Category</th>
+                    <th>Light need</th>
+                    <th>Watering</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var plant in Model)
+                {
+                    <tr>
+                        <td>@plant.id</td>
+                        <td>@plant.name</td>
+                        <td>@plant.category</td>
+                        <td>@plant.light</td>
+                        <td>@plant.water</td>
+                        <td>
+                            <a asp-action="EditPlant" asp-route-id="@plant.id" class="action-link">Edit</a>
+                            <form asp-action="DeletePlant" method="post" style="display:inline"
+                                  onsubmit="return confirm('Delete @plant.name?')">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@plant.id" />
+                                <button type="submit" class="del-btn">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
